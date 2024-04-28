@@ -63,15 +63,15 @@
 			member
 		set
 			name = #{name},
-			password = #{password},
+			password = #{password}
 		where
 			id = #{id}
 	</update>
 	<update id="changePassword" parameterType="memberVO">
 		update
-			member
+			users
 		set
-			password = #{password},
+			password = #{password}
 		where
 			id = #{id}
 	</update>

@@ -25,7 +25,7 @@
               <div style="width: 400px;">
                 <h6></h6>
                 <h1 style="padding: 15px;">My Page</h1>
-                <form action="#" name="signupFrm" id="signupF">
+                <form action="#" name="signupFrm" id="signupF" action="/mypage" method="post">
                   <fieldset
                     style="border: none; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background-color: #ffffff; padding: 10px;">
                     <div style="margin: 10px;">
@@ -38,6 +38,7 @@
                         <input type="password" id="modified_password" name="password" placeholder="변경할 비밀번호를 입력하세요."
                           style="width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 10px; border: 1px solid #cccccc; border-radius: 5px; box-sizing: border-box;">
                       </label>
+                      <p id="pW" style="color: red;"></p>
                     </div>
                     <div style="margin: 10px;">
                       <label for="confirm_password" style="display: block; text-align: left;">비밀번호 확인
@@ -45,6 +46,7 @@
                           placeholder="위 비밀번호를 다시 한번 입력하세요."
                           style="width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 10px; border: 1px solid #cccccc; border-radius: 5px; box-sizing: border-box;">
                       </label>
+                      <p id="pwW" style="color: red;"></p>
                     </div>
                     <div style="margin: 10px;">
                       <div style="display: block; text-align: left;">이름
@@ -72,7 +74,7 @@
 
 
                     <div id="check" style="margin: 30px; color: #ff0000;"></div>
-                    <button id="saveBtn"
+                    <button id="saveBtn" type="submit"
                       style="background-color: #ffffff; color: #000000; border: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 10px 20px; cursor: pointer; transition: all 0.3s ease; border-radius: 5px; width: 100%; margin-top: 10px;">
                       Save</button>
                   </fieldset>
@@ -94,7 +96,34 @@
   
   <script>
   //비밀번호 확인 일치 여부
-  
+	const passwordForm = document.querySelector("#signupF")
+	const pwW = document.querySelector("#pwW");
+  	const pW = document.querySelector("#pW")
+	const password = document.querySelector("#modified_password");
+	const confirmPassword = document.querySelector("#confirm_password");
+	passwordForm.addEventListener("submit", function (e) {
+		e.preventDefault();
+		pW.textContent = '';
+        pwW.textContent = '';
+        if (password.value.length < 5) {
+            pW.textContent = '5~16자의 대/소문자, 숫자를 사용해주세요.';
+            return;
+        }
+        
+        if (password.value !== confirmPassword.value) {
+            pwW.textContent = "비밀번호가 일치하지 않습니다.";
+            return;
+        }
+        this.submit();
+		
+	})
+	
+	const wor = document.querySelector("#wor");
+	//미취업 입력
+	if(wor.innerText==""){
+		 wor.innerText = "미취업"
+	}
+  	
   
   </script>
   

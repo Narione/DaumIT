@@ -1,6 +1,7 @@
 package home;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -30,6 +31,28 @@ public class MypageServlet extends HttpServlet {
 		// 파라미터로 id값을 받아와야 한다.
 		request.getRequestDispatcher("/WEB-INF/views/home/mypage.jsp").forward(request, response);
 		
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String password = request.getParameter("password");
+		MemberVO memVO = (MemberVO) session.getAttribute("member");
+		String id = memVO.getId();
+		// id와 currentPassword에 해당하는 member를 조회하여 가져온다.
+		MemberVO vo = service.getMember(id);
+		if (vo != null) {
+			vo.setPassword(password);
+			int executeUpdate = service.changePassword(vo);
+			if (executeUpdate > 0) {
+				response.sendRedirect("/index");
+			}
+		} else {
+			// 비밀번호 변경페이지로 그대로 이동
+			response.sendRedirect("/mypage");
+		}
+		
+	
 	}
 
 
