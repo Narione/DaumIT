@@ -3,82 +3,145 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member.MemberMapper">
-	<select id="getMemberTotalCount" parameterType="memberVO" resultType="int">
+	<select id="getMemberTotalCount" parameterType="memberVO"
+		resultType="int">
 		select
-			count(*) cnt
+		count(*) cnt
 		from
-			member
+		users
 	</select>
 	<select id="getMemberList" resultType="memberVO">
 		select
-			id,
-			name,
-			create_date
-		from
-			member
-	</select>
-	<select id="getMember" parameterType="String" resultType="memberVO">
-		select
 			num,
 			id,
-			password,
 			name,
 			gender,
 			birth,
 			worker_code workerCode,
 			power_code powerCode,
-			createdate createDate,
+			createdate,
+			withdrawal
+		from
+			users
+	</select>
+	<select id="getMember" parameterType="string"
+		resultType="memberVO">
+		select
+			num,
+			id,
+			name,
+			gender,
+			birth,
+			worker_code workerCode,
+			power_code powerCode,
+			createdate,
 			withdrawal
 		from
 			users
 		where
-			id = #{id}
+			id = #{id}	
 	</select>
 	<select id="currentPassword" parameterType="memberVO">
 		select
-			num,
-			id,
-			password,
-			name,
-			gender,
-			birth,
-			worker_code workerCode,
-			power_code powerCode,
-			createdate createDate,
-			withdrawal
+		num,
+		id,
+		password,
+		name,
+		gender,
+		birth,
+		worker_code workerCode,
+		power_code powerCode,
+		createdate createDate,
+		withdrawal
 		from
-			users
+		users
 		where
-			id = #{id}
-			and password = #{password}
+		id = #{id}
+		and password = #{password}
 	</select>
 	<insert id="insertMember" parameterType="memberVO">
-		insert into users
-			(id, password, name, birth, gender)
+		insert into member
+		(id, name, password)
 		values
-			(#{id}, #{password}, #{name}, #{birth}, #{gender})
+		(#{id}, #{name}, #{password})
 	</insert>
 	<update id="updateMember" parameterType="memberVO">
 		update
-			member
+		users
 		set
-			name = #{name},
-			password = #{password}
+		name = #{name},
+		password = #{password},
 		where
-			id = #{id}
+		id = #{id}
 	</update>
 	<update id="changePassword" parameterType="memberVO">
 		update
-			users
+		users
 		set
-			password = #{password}
+		password = #{password}
 		where
-			id = #{id}
+		id = #{id}
 	</update>
 	<delete id="deleteMember" parameterType="string">
 		delete from
-			member
+		users
 		where
-			id = #{id}
+		id = #{id}
 	</delete>
+
+	<select id="totalUserCount">
+		SELECT COUNT(*) AS total
+		FROM USERS u
+	</select>
+	
+	<select id="totalWorker">
+		SELECT COUNT(*) AS jobTotal
+		FROM  USERS u 
+		WHERE u.WORKER_CODE IS NOT NULL
+	</select>
+	
+	<select id="getRecentWorker">
+		SELECT sub.NAME, sub.WORKER_CODE as "work"
+			FROM (
+			    SELECT *
+			    FROM USERS u
+			    WHERE u.WORKER_CODE IS NOT NULL 
+			    ORDER BY u.CREATEDATE DESC
+			) sub
+			WHERE sub.CREATEDATE = (
+			    SELECT CREATEDATE
+			    FROM (
+			        SELECT *
+			        FROM USERS
+			        WHERE WORKER_CODE IS NOT NULL
+			        ORDER BY CREATEDATE DESC
+			    ) sub_inner
+			    WHERE ROWNUM = 1
+			)
+	</select>
+	
+	<select id="getCompanyList" parameterType="SearchVO" resultType="companyVO">
+		select
+			num,
+			name,
+			representative,
+			business,
+			address
+		from
+			company
+		<where>
+			<if test="searchWord != null">
+				name like '%' || #{searchWord} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<update id="changeCompany" parameterType="memberVO">
+		update
+		users
+		set
+		worker_code = #{workerCode}
+		where
+		id = #{id}
+	</update>
 </mapper>

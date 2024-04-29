@@ -257,7 +257,7 @@
 				<button id="stuListWeb"
 					style="background-color: #4118ab; border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 24px; margin: 4px 2px; cursor: pointer; border-radius: 5px; transition-duration: 0.4s;">회원
 					관리</button>
-				<button id="jobAdd"
+				<button id="jobAdd" type="button"
 					style="background-color: #4118ab; border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 24px; margin: 4px 2px; cursor: pointer; border-radius: 5px; transition-duration: 0.4s;">취업
 					관리</button>
 			</div>
@@ -284,6 +284,12 @@
     };
 	</script>
 
+	<script>
+	const jobAdd = document.querySelector("#jobAdd");
+	jobAdd.addEventListener("click", function(){
+		window.open("/att/jobadd","","width=1200,height=1000")
+	})
+	</script>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="/resource/vendor/jquery/jquery.min.js"></script>

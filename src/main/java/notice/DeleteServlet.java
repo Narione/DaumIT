@@ -1,4 +1,4 @@
-package community;
+package notice;
 
 import java.io.IOException;
 
@@ -11,28 +11,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 
-
-@WebServlet("/community/view")
-public class ViewServlet extends HttpServlet {
+@WebServlet("/notice/delete")
+public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private CommunityService service;
+	private NoticeService service;
 	
 	@Override
 	public void init() throws ServletException {
         ServletContext context = getServletContext();
         SqlSession sqlSession = (SqlSession) context.getAttribute("sqlSession");
-        service = new CommunityService(sqlSession);
+        service = new NoticeService(sqlSession);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 파라미터로 id값을 받아와야 한다.
-        int searchNo = Integer.parseInt(request.getParameter("no"));
-        CommunityVO vo = service.getCommunity(searchNo);
-        int viewCount = service.totalComment(searchNo);
-        service.updateHits(searchNo);
-        request.setAttribute("community", vo);
-        request.setAttribute("count", viewCount);
-        request.getRequestDispatcher("/WEB-INF/views/community/view.jsp").forward(request, response);
+		int deleteNo = Integer.parseInt(request.getParameter("no"));
+		int deleteBoard = service.deleteNotice(deleteNo);
+        if (deleteBoard > 0) {
+            response.sendRedirect("/notice");
+        } else {
+            request.setAttribute("msg", "삭제 실패");
+            request.getRequestDispatcher("/WEB-INF/views/notice/view.jsp").forward(request, response);
+        }
 	}
+
 
 }

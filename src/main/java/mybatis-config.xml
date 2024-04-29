@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-	"https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<properties resource="db.properties"></properties>
-		<settings>
-		<setting name="logImpl" value="LOG4J2"/>
-		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	<settings>
+		<setting name="logImpl" value="LOG4J2" />
+		<setting name="mapUnderscoreToCamelCase" value="true" />
 	</settings>
 	<typeAliases>
-		<!-- <typeAlias type="common.SearchVO" alias="searchVO"/> -->
-		<typeAlias type="member.MemberVO" alias="memberVO"/>
-		<typeAlias type="attendence.AttNumVO" alias="attNumVO"/>
+		<typeAlias type="notice.NoticeVO" alias="NoticeVO" />
+		<typeAlias type="member.MemberVO" alias="memberVO" />
+		<typeAlias type="common.SearchVO" alias="SearchVO" />
+		<typeAlias type="community.CommunityVO" alias="CommunityVO" />
 		<typeAlias type="attendence.AttendenceVO" alias="attendenceVO"/>
-		<!-- <typeAlias type="board.BoardVO" alias="boardVO"/> -->
+		<typeAlias type="attendence.AttNumVO" alias="attNumVO"/>
+		<typeAlias type="attendence.CompanyVO" alias="companyVO" />
+		<typeAlias type="comment.CommentVO" alias="CommentVO" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -26,8 +30,11 @@
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="mappers/MemberMapper.xml"/>
+		<mapper resource="mappers/NoticeMapper.xml" />
+		<mapper resource="mappers/MemberMapper.xml" />
+		<mapper resource="mappers/CommuMapper.xml" />
+		<mapper resource="mappers/CommentMapper.xml" />
 		<mapper resource="mappers/AttendenceMapper.xml"/>
-		<!-- <mapper resource="mappers/BoardMapper.xml"/> -->
+		
 	</mappers>
 </configuration>

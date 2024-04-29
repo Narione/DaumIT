@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="community.CommunityMapper">
+
+	<select id="getCommunityListCount" parameterType="CommunityVO"
+		resultType="int">
+		select
+		count(*) cnt
+		from
+		community
+	</select>
+
+	<select id="getCommunityList" parameterType="SearchVO"
+		resultType="CommunityVO">
+		select
+		*
+		from
+		(
+		select
+		rownum rnum,
+		c.*
+		from
+		(
+		SELECT
+		c.NUM,
+		c.TITLE,
+		c.HITS,
+		c.CREATE_DATE,
+		u.ID,
+		COALESCE(COUNT(co.CONTENT), 0) AS "count"
+		FROM
+		COMMUNITY c
+		INNER JOIN USERS u ON c.MEMBER_NUM = u.NUM
+		LEFT JOIN COMMENTS co ON c.NUM = co.BOARD_NUM AND co.DELETE_YN = 'N'
+		WHERE
+		c.DELETE_YN = 'N'
+		GROUP BY
+		c.NUM,
+		c.TITLE,
+		c.HITS,
+		c.CREATE_DATE,
+		u.ID
+		order by num desc
+		) c
+		)
+		where rnum between #{firstRecordIndex}+1 and #{lastRecordIndex}
+
+	</select>
+
+	<select id="getCommunity" parameterType="int">
+		SELECT
+		n.TITLE ,n.HITS ,n.CREATE_DATE ,n.CONTENT ,u.NAME, u.ID, n.NUM,TO_CHAR(n.CREATE_DATE, 'HH24:mm') AS createTime
+		FROM
+		community n , USERS u
+		WHERE
+		n.MEMBER_NUM = u.NUM
+		AND
+		n.NUM = #{searchNo}
+	</select>
+
+	<insert id="insertCommunity" parameterType="CommunityVO">
+		insert into community
+		(title, member_num, content)
+		values
+		(#{title},#{member_num},#{content})
+	</insert>
+
+	<update id="updateCommunity" parameterType="CommunityVO">
+		update
+		community
+		set
+		title = #{title},
+		content = #{content}
+		where
+		num = #{num}
+	</update>
+
+	<update id="deleteCommunity" parameterType="int">
+		update community
+		set
+		delete_yn = 'Y'
+		where
+		num = #{num}
+	</update>
+
+	<update id="updateHits" parameterType="int">
+		update community
+		set
+		hits = hits+1
+		where
+		num = #{num}
+	</update>
+
+	<select id="totalComment" parameterType="int">
+		SELECT
+		COUNT(c.CONTENT) AS totalCount
+		FROM
+		COMMENTS c
+		WHERE
+		c.BOARD_NUM = #{num}
+		AND
+		c.DELETE_YN = 'N'
+	</select>
+</mapper>

@@ -1,4 +1,4 @@
-package community;
+package comment;
 
 import java.io.IOException;
 
@@ -11,36 +11,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 
-
-@WebServlet("/community/update")
-public class UpdateServlet extends HttpServlet {
+@WebServlet("/comment/update")
+public class CommentUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private CommunityService service;
+	private CommentService service;
 	
 	@Override
 	public void init() throws ServletException {
         ServletContext context = getServletContext();
         SqlSession sqlSession = (SqlSession) context.getAttribute("sqlSession");
-        service = new CommunityService(sqlSession);
-	}
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int searchNo = Integer.parseInt(request.getParameter("no"));
-		CommunityVO vo = service.getCommunity(searchNo);
-
-        request.setAttribute("community", vo);
-        request.getRequestDispatcher("/WEB-INF/views/community/update.jsp").forward(request, response);
+        service = new CommentService(sqlSession);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int no = Integer.parseInt(request.getParameter("no"));
-        String title = request.getParameter("title");
-        String content = request.getParameter("editortx2");
+        String content = request.getParameter("content");
+        int boardNum = Integer.parseInt(request.getParameter("boardNum"));
+        
 
-		int updateCommu = service.updateCommunity(new CommunityVO(no,title,content));
-        if (updateCommu > 0) {
+		int updateComment = service.updateComment(new CommentVO(no,content));
+        if (updateComment > 0) {
             // 등록 성공
-            response.sendRedirect("/community");
+            response.sendRedirect("/community/view?no="+boardNum);
         } else {
             // 등록 실패
             request.setAttribute("msg", "수정 실패");

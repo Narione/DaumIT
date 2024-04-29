@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comment.CommentMapper">
+    	
+  <select id="getCommentList" parameterType="int" >
+  	SELECT
+  		c.NUM , c.BOARD_NUM as boardnum , c.CONTENT , c.CREATE_DATE as createDate,  u.NAME, c.id, TO_CHAR(c.CREATE_DATE, 'HH24:mm') AS createTime
+	FROM
+		COMMENTS c , USERS u 
+	WHERE
+		c.ID = u.ID
+	AND
+		c.board_num = #{boardNum}
+	AND
+		c.DELETE_YN = 'N'
+	ORDER BY c.NUM ASC
+  </select>
+  
+  <insert id="insertComment" parameterType="CommentVO">
+  	insert into Comments
+  		(board_num, id, content)
+  	values
+  		(#{boardNum}, #{id}, #{content})
+  </insert>
+  
+  <update id="updateComment" parameterType="CommentVO">
+  	update
+  		Comments
+  	set
+  		content = #{content}
+  	where
+  		num = #{num}
+  </update>
+  
+  <update id="deleteComment" parameterType="int">
+  	update Comments
+  	set
+  		delete_yn = 'Y'
+  	where
+  		num = #{num}
+  </update>
+  
+</mapper>

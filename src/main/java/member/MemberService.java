@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import attendence.CompanyVO;
+import common.SearchVO;
+
 public class MemberService {
 	private final MemberMapper mapper;
 	public MemberService(SqlSession session) {
@@ -34,4 +37,13 @@ public class MemberService {
 	public int changePassword(MemberVO vo) {
 		return mapper.changePassword(vo);
 	}
+	
+	public List<CompanyVO> getCompanyList(SearchVO vo) {
+		return mapper.getCompanyList(vo);
+	}
+	
+	public int changeCompany(MemberVO vo) {
+		return mapper.changeCompany(vo);
+	}
+	
 }
