@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="attendence.AttendenceMapper">
+	
+	
+	<select id="getMemberAtt"  resultType="attendenceVO">
+		
+		
+				SELECT 
+					u.NAME memberName,
+					u.ID memberId,
+					u.NUM memberNum 
+				FROM
+					USERS u 
+				WHERE 
+					u.POWER_CODE ='N'
+				AND 
+					u.WITHDRAWAL ='N'
+				AND 
+					u.WORKER_CODE IS NULL 
+				order by u.NUM
+			
+	</select>
+	
+
+	<select id="attNum"  parameterType="attNumVO" resultType="attNumVO" >
+			<![CDATA[
+			SELECT
+			d.days days, count(a.att_date) attNum, (SELECT count(*) FROM ATTENDENCE a2 WHERE a2.att_date = d.days) totalNum
+			FROM (
+			SELECT TO_CHAR(TRUNC(TO_DATE('20240401'), 'DD') + LEVEL - 1, 'YYYYMMDD') DAYS
+			   FROM DUAL
+			CONNECT BY LEVEL <= TO_NUMBER(TO_DATE('20240430') - TO_DATE('20240401')) + 1
+			) d
+			LEFT OUTER JOIN ATTENDENCE a ON d.days = a.ATT_DATE AND a.att = 'Y'
+			GROUP BY d.days
+			ORDER BY days
+			
+		
+		]]>
+	</select>
+	
+	<insert id="insertAtt" parameterType="attendenceVO">
+	
+			INSERT INTO 
+				ATTENDENCE 
+				( 
+					ATT_DATE, 
+					attIndex,
+					MEMBER_NUM, 
+					MEMBER_NAME, 
+					MEMBER_ID, 
+					ATT, 
+					MEMO
+				) 
+			VALUES 
+				(
+					#{attDate}, 
+					#{attIndex},
+					#{memberNum}, 
+					#{memberName}, 
+					#{memberId}, 
+					#{att}, 
+					#{memo}
+				)
+			
+	
+	</insert>
+	
+</mapper>

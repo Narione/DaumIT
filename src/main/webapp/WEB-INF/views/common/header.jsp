@@ -71,7 +71,7 @@
                             <li><a href="/location">오시는 길</a></li>
                           </ul>
                         </li> 
-                        <li><a href="calendar-u.html" id="calA">출결조회</a></li> 
+                        <li><a href="/att" id="calA">출결조회</a></li> 
                     </ul>        
                     <a class='menu-trigger'>
                         <span>Menu</span>

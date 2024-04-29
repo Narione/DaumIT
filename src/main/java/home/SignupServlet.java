@@ -1,6 +1,7 @@
 package home;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -40,6 +41,8 @@ public class SignupServlet extends HttpServlet {
 		} else {
 			request.getRequestDispatcher("/WEB-INF/views/member/add.jsp").forward(request, response);
 		}
+		
+		
 	}
 
 }

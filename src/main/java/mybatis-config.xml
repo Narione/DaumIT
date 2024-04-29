@@ -10,6 +10,8 @@
 	<typeAliases>
 		<!-- <typeAlias type="common.SearchVO" alias="searchVO"/> -->
 		<typeAlias type="member.MemberVO" alias="memberVO"/>
+		<typeAlias type="attendence.AttNumVO" alias="attNumVO"/>
+		<typeAlias type="attendence.AttendenceVO" alias="attendenceVO"/>
 		<!-- <typeAlias type="board.BoardVO" alias="boardVO"/> -->
 	</typeAliases>
 	<environments default="development">
@@ -25,6 +27,7 @@
 	</environments>
 	<mappers>
 		<mapper resource="mappers/MemberMapper.xml"/>
+		<mapper resource="mappers/AttendenceMapper.xml"/>
 		<!-- <mapper resource="mappers/BoardMapper.xml"/> -->
 	</mappers>
 </configuration>

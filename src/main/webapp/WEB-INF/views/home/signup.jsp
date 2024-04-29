@@ -94,6 +94,8 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> 
     <script>
+    
+    let idCheck = false;
     	$(document).ready(function(){
     		/* $("#username").on("keyup", function(){
     			if ($("#username").val().length <4 ){
@@ -111,6 +113,7 @@
     						alert("중복된 아이디가 있습니다. 다시 입력해주세요.");
     					}else{
     						alert("사용가능 합니다.")
+    						idCheck = true;
     					}
     					
     					
@@ -120,10 +123,8 @@
     		});
     	});	
     	
-    </script>
     
     <!-- 유효성 검사 -->
-    <script>
     const signupBtn = document.querySelector("#signup");
     
     signupBtn.addEventListener('click', function(e) {
@@ -135,15 +136,21 @@
         const birth = document.querySelector('#birth').value;
         const gender = document.querySelector('#gender').value;
         
+        const regexId = /^[a-z0-9]{5,}$/;
+        const regexPw = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,16}$/;
+        const regexName = /^[\uAC00-\uD7A3]{2,}$/;
+        const regexBirth = /^[0-9]{8}$/;
+        
+        
 
         // 회원 정보 유효성 검사
-        if (id.length < 5) {
-          document.getElementById('idW').innerText = '5자 이상의 영문 아이디를 입력하세요.';
+        if (!regexId.test(id)) {
+          document.getElementById('idW').innerText = '5자 이상의 영문 소문자, 숫자를 입력하세요.';
         }else{
         	document.getElementById('idW').innerText = '';
         }
-        if (pw.length < 5) {
-        	document.getElementById('pwW').innerText = '5~16자의 대/소문자, 숫자를 사용해주세요.';
+        if (!regexPw.test(pw)) {
+        	document.getElementById('pwW').innerText = '5~16자의 영문, 숫자를 사용해주세요.';
         }else{
         	document.getElementById('pwW').innerText = '';
         }
@@ -152,18 +159,18 @@
         }else{
         	document.getElementById('cpwW').innerText = '';
         }
-        if (name.length < 2) {
+        if (!regexName.test(name)) {
           document.getElementById('nW').innerText = '올바른 이름을 입력해주세요.';
         }else{
         	document.getElementById('nW').innerText = '';
         }
-        if (birth.length < 8) {
-          document.getElementById('bW').innerText = '올바른 생년월일을 입력해주세요.';
+        if (!regexBirth.test(birth)) {
+          document.getElementById('bW').innerText = '올바른 생년월일 형식을 입력해주세요.';
         }else{
         	document.getElementById('bW').innerText = '';
         }
     	
-        if(id.length >=5 && pw.length >= 5 && pw == checkPw && name.length >=2 && birth.length>=8){
+        if(regexId.test(id) && regexPw.test(pw) && pw == checkPw && regexName.test(name) && regexBirth.test(birth) && idCheck){
 	    	document.getElementById('signupF').submit();
         }
     });

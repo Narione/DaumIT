@@ -101,12 +101,18 @@
   	const pW = document.querySelector("#pW")
 	const password = document.querySelector("#modified_password");
 	const confirmPassword = document.querySelector("#confirm_password");
+	
+	const regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,16}$/;
+	
 	passwordForm.addEventListener("submit", function (e) {
 		e.preventDefault();
 		pW.textContent = '';
         pwW.textContent = '';
-        if (password.value.length < 5) {
-            pW.textContent = '5~16자의 대/소문자, 숫자를 사용해주세요.';
+        
+        
+        
+        if (!regex.test(password.value)) {
+            pW.textContent = '5~16자의 영문, 숫자를 사용해주세요.';
             return;
         }
         
