@@ -144,4 +144,17 @@
 		where
 		id = #{id}
 	</update>
+	
+	<select id="getCompanyCount" parameterType="searchVO" resultType="int">
+		select
+			count(*) cnt
+		from
+			company
+		<where>
+			<if test="searchWord != null">
+				name like '%' || #{searchWord} || '%'
+			</if>
+		</where>
+	</select>
+	
 </mapper>

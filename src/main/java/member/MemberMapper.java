@@ -16,4 +16,5 @@ public interface MemberMapper {
 	int changePassword(MemberVO vo);
 	List<CompanyVO> getCompanyList(SearchVO vo);
 	int changeCompany(MemberVO vo);
+	int getCompanyCount(SearchVO vo);
 }

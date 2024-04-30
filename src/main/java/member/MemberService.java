@@ -46,4 +46,8 @@ public class MemberService {
 		return mapper.changeCompany(vo);
 	}
 	
+	public int getCompanyCount(SearchVO vo) {
+		return mapper.getCompanyCount(vo);
+	}
+	
 }

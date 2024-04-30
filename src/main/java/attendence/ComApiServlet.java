@@ -37,7 +37,13 @@ public class ComApiServlet extends HttpServlet {
 		SearchVO vo = new SearchVO(searchWord);
 		List<CompanyVO> comList = service.getCompanyList(vo);
 		request.setAttribute("companies", comList);
-		String someValue = request.getParameter("id"); 		
+		
+		int comCount = service.getCompanyCount(vo);
+		request.setAttribute("cnt", comCount);
+		
+		
+		String someValue = request.getParameter("id"); 
+		request.setAttribute("id", someValue);
 	    HttpSession session = request.getSession();
 	    session.setAttribute("someKey", someValue);
 		
@@ -48,7 +54,7 @@ public class ComApiServlet extends HttpServlet {
 		HttpSession session = request.getSession(false); // false는 세션이 없으면 null을 반환하도록 합니다.
 	    String someValue = null;
 	    if (session != null) {
-	        someValue = (String) session.getAttribute("someKey");
+	    	someValue = (String) session.getAttribute("someKey");
 	    }
 
 		MemberVO vo = service.getMember(someValue);
@@ -59,14 +65,10 @@ public class ComApiServlet extends HttpServlet {
 			vo.setWorkerCode(comName);
 			int executeUpdate = service.changeCompany(vo);
 			if (executeUpdate > 0) {
-				System.out.println("성공");
+				response.sendRedirect("/att/jobadd");
 			}
 		} else {
 		}
-		
-	    if (session != null) {
-	        session.removeAttribute("someKey");
-	    }
 	
 	}
 

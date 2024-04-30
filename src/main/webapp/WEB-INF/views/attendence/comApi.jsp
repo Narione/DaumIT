@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,22 +84,23 @@
     	<form method="get" action="/att/comapi">
         <div id="searchArea">
             <input type="text" name="searchWord">
-            <button type="submit" id="searchBtn">°Ë»ö</button>
+            <input type="hidden" name="id" value="${id }">
+            <button type="submit" id="searchBtn">ê²€ìƒ‰</button>
         </div>
         </form>
 
         <div id="resultArea">
             <div>
-                È¸»ç °Ë»ö °á°ú (<span id="resultSize"></span>)
+                íšŒì‚¬ ê²€ìƒ‰ ê²°ê³¼ (<span id="resultSize">${cnt }ê±´</span>)
             </div>
             <table id="resultList">
                 <tr>
                     <th>NO</th>
-                    <th>È¸»ç¸í</th>
-                    <th>´ëÇ¥</th>
-                    <th>ÁÖ »ç¾÷</th>
-                    <th>ÁÖ¼Ò</th>
-                    <th style="width: 50px;">ÀúÀå</th>
+                    <th>íšŒì‚¬ëª…</th>
+                    <th>ëŒ€í‘œ</th>
+                    <th>ì£¼ ì‚¬ì—…</th>
+                    <th>ì£¼ì†Œ</th>
+                    <th style="width: 50px;">ì €ìž¥</th>
                 </tr>
             <c:forEach var="company" items="${companies}">
 			<tr>
@@ -110,7 +111,7 @@
 				<td>${company.representative}</td>
 				<td>${company.business}</td>
 				<td>${company.address}</td>
-				<td><button type="submit" id="save">ÀúÀå</button></td>
+				<td><button type="submit" id="save">ì €ìž¥</button></td>
 				</form>
 			</tr>
 			</c:forEach>
